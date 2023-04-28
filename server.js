@@ -102,3 +102,6 @@ app.get("/api/player", (req, res) => {
 app.listen(8000, () => {
   console.log(`Listening on 8000`);
 });
+
+app.use(express.static(`${__dirname}/public`))
+
