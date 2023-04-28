@@ -1,4 +1,7 @@
 const express = require("express");
+const cors = require('cors')
+const path = require('path')
+
 const bots = require("./src/botsData");
 const shuffle = require("./src/shuffle");
 //rollbar
@@ -16,6 +19,13 @@ const playerRecord = {
 const app = express();
 
 app.use(express.json());
+app.use(cors())
+app.use(express.static('public'))
+
+app.get('/', (req,res) => {
+  res.status(200).sendFile(path.join(__dirname, 'public'))
+})
+
 
 // Add up the total health of all the robots
 const calculateTotalHealth = (robots) =>
