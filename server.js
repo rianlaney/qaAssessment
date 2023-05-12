@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require('cors')
 const path = require('path')
+const app = express();
+
 
 const bots = require("./src/botsData");
 const shuffle = require("./src/shuffle");
+
 //rollbar
 var Rollbar = require('rollbar')
 var rollbar = new Rollbar({
@@ -16,10 +19,12 @@ const playerRecord = {
   wins: 0,
   losses: 0,
 };
-const app = express();
 
 app.use(express.json());
 app.use(cors())
+app.use(express.static('public'))
+
+
 
 app.get('/', (req,res) => {
   res.status(200).sendFile(path.join(__dirname, './public/index.html'))
@@ -102,7 +107,7 @@ app.get("/api/player", (req, res) => {
 
     res.status(200).send(playerRecord);
   } catch (error) {
-    rollbar.error('player error')
+    rollbar.error(error,'player error')
     console.log("ERROR GETTING PLAYER STATS", error);
     res.sendStatus(400);
   }
@@ -112,5 +117,4 @@ app.listen(8000, () => {
   console.log(`Listening on 8000`);
 });
 
-app.use(express.static(`${__dirname}/public`))
 

@@ -15,4 +15,11 @@ describe("Duel Duo tests", () => {
     await driver.get("http://localhost:8000");
     await driver.wait(until.titleIs("Duel Duo"), 1000);
   });
+  test('clicking draw: display choices', async ()=>{
+    await driver.get('http://localhost:8000');
+    await driver.findElement(By.id('draw')), click()
+    let choices = await driver.findElement(By.id('choices'))
+    expect(choices).not.toBe(undefined)
+  });
+  
 });
